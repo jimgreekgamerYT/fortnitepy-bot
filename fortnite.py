@@ -413,6 +413,33 @@ async def event_friend_message(message: fortnitepy.FriendMessage) -> None:
         await message.reply('Skin set to Purple Skull Trooper!')
         print(f"[PartyBot] [{time()}] Skin set to Purple Skull Trooper.")
 
+    if "!floss" in args[0].lower():
+        if message.author.display_name in data['BlockList']:
+            await message.reply("You don't have access to this command!")
+        else:
+            await client.user.party.me.clear_emote()
+            if len(args) == 1:
+                await client.user.party.me.set_emote(asset="/Game/Athena/Items/Cosmetics/Dances/EID_Floss.EID_Floss")
+                await message.reply('Doing emote: Floss')
+            else:
+                if len(args) == 2:
+                    if args[1].lower() == 'random':
+                        pickaxes = await BenBotAsync.get_cosmetics(
+                        lang="en",
+                        searchLang="en",
+                        backendType="AthenaPickaxe"
+                        )
+                        pickaxe = random.choice(pickaxes)
+
+                        await client.user.party.me.set_pickaxe(
+                            asset=pickaxe.id
+                        )
+
+                        await client.user.party.me.clear_emote()
+                        await client.user.party.me.set_emote(asset="/Game/Athena/Items/Cosmetics/Dances/EID_Floss.EID_Floss")
+
+                        await message.reply(f"Pointing with: {pickaxe.name}")
+    
     elif "!pinkghoul" in args[0].lower():
         variants = client.user.party.me.create_variants(
             material=3
